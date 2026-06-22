@@ -66,17 +66,17 @@ const normalizeTime = (value: string): string => {
 
 const EventSchema = new Schema<IEvent>(
   {
-    title: { type: String, required: nonEmptyString, trim: true },
+    title: { type: String, required: true, validate: nonEmptyString, trim: true },
     slug: { type: String, required: true, unique: true, trim: true, lowercase: true },
-    description: { type: String, required: nonEmptyString, trim: true },
-    overview: { type: String, required: nonEmptyString, trim: true },
-    image: { type: String, required: nonEmptyString, trim: true },
-    venue: { type: String, required: nonEmptyString, trim: true },
-    location: { type: String, required: nonEmptyString, trim: true },
-    date: { type: String, required: nonEmptyString, trim: true },
-    time: { type: String, required: nonEmptyString, trim: true },
-    mode: { type: String, required: nonEmptyString, trim: true },
-    audience: { type: String, required: nonEmptyString, trim: true },
+    description: { type: String, required: true, validate: nonEmptyString, trim: true },
+    overview: { type: String, required: true, validate: nonEmptyString, trim: true },
+    image: { type: String, required: true, validate: nonEmptyString, trim: true },
+    venue: { type: String, required: true, validate: nonEmptyString, trim: true },
+    location: { type: String, required: true, validate: nonEmptyString, trim: true },
+    date: { type: String, required: true, validate: nonEmptyString, trim: true },
+    time: { type: String, required: true, validate: nonEmptyString, trim: true },
+    mode: { type: String, required: true, validate: nonEmptyString, trim: true },
+    audience: { type: String, required: true, validate: nonEmptyString, trim: true },
     agenda: {
       type: [String],
       required: true,
@@ -85,7 +85,7 @@ const EventSchema = new Schema<IEvent>(
         message: 'Agenda must contain at least one item',
       },
     },
-    organizer: { type: String, required: nonEmptyString, trim: true },
+    organizer: { type: String, required: true, validate: nonEmptyString, trim: true },
     tags: {
       type: [String],
       required: true,
@@ -101,7 +101,7 @@ const EventSchema = new Schema<IEvent>(
 );
 
 // Generate slug and normalize date/time before saving.
-EventSchema.pre<IEvent>('save', function next(next) {
+EventSchema.pre<IEvent>('save', function (next: any) {
   if (this.isModified('title')) {
     this.slug = slugify(this.title);
   }

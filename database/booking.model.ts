@@ -25,7 +25,7 @@ const BookingSchema = new Schema<IBooking>(
 );
 
 // Ensure referenced Event exists before saving the booking.
-BookingSchema.pre<IBooking>('save', async function next(next) {
+BookingSchema.pre<IBooking>('save', async function (next: any) {
   const exists = await Event.exists({ _id: this.eventId });
   if (!exists) {
     return next(new Error('Referenced event not found'));

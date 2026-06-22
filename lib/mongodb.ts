@@ -19,10 +19,11 @@ declare global {
 
 let cached = global.mongoose || { conn: null, promise: null };
 
+mongoose.set('strictQuery', true);
+
 const mongooseOptions: ConnectOptions = {
   // Recommended options for modern MongoDB drivers.
   dbName: process.env.MONGODB_DB,
-  strictQuery: true,
 };
 
 /**
